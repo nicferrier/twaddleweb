@@ -1,5 +1,11 @@
+ul#tools {
+float: right;
+list-style-type: none;
+}
+
 ul#tweettemplate {
 display: none;
+margin-top: 2em;
 }
 
 ul#tweets {
@@ -12,6 +18,7 @@ ul#tweets li {
 height: 60px;
 border-bottom-style: solid;
 border-bottom-width: thin;
+border-bottom-color: #989aae;;
 margin-bottom: .3em;
 }
 
