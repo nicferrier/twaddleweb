@@ -13,14 +13,26 @@
         <ul id="tools">
             <li><h3>twaddle</h3></li>
             <li>
-                <form name="refresh">
+                <form name="reload">
                     <button 
                         type="button" 
-                        onclick="twaddle.refresh();"
+                        onclick="twaddle.reload();"
                         name="refresh">refresh</button>
                 </form>
             </li>
-        </ul>
+            <li>
+                <form id="update"
+                      name="update" 
+                      target="tweetsink"
+                      method="POST"
+                      action="http://api.twitter.com/1/statuses/update.xml">
+                    <textarea name="status">
+                    </textarea>
+                    <button 
+                        type="submit" 
+                        name="tweet">tweet!</button>
+                </form>
+            </li>
         </ul>
         <ul id="tweets">
         </ul>
@@ -33,11 +45,14 @@
                    target="_blank" 
                    title="@screen_name: @name" 
                    href="@user_url">
-                    <img src="@user_img"
+                    <img class="tweet_user_photo"
+                         src="@user_img"
                          title="@screen_name: @name"/>
                 </a>
                 <span class='text'>@text</span>
             </li>
         </ul>
+        <iframe name="tweetsink" id="tweetpostsink">
+        </iframe>
     </body>
 </html>
