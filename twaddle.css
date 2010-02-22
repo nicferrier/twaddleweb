@@ -1,0 +1,30 @@
+ul#tweettemplate {
+display: none;
+}
+
+ul#tweets {
+margin-left: 4em;
+margin-right: 7em;
+list-style-type: none;
+}
+
+ul#tweets li {
+height: 60px;
+border-bottom-style: solid;
+border-bottom-width: thin;
+margin-bottom: .3em;
+}
+
+ul#tweets li {
+display: block;
+margin-left: 3em;
+}
+
+
+a.user img {
+display: block;
+margin-left: 0em;
+margin-right: 0.2em;
+float: left;
+border-style: none;
+}

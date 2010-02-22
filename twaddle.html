@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>twaddle - a trivial twitter client</title>
+        <link rel="stylesheet" href="twaddle.css" type="text/css"/>
+        <script src="jquery-1.4.2.min.js">
+        </script>
+        <script src="jquery.sprintf.js">
+        </script>
+        <script src="twaddle.js">
+        </script>
+    </head>
+    <body>
+        <ul id="tools">
+            <li>
+                <form name="refresh">
+                    <button 
+                        type="button" 
+                        onclick="twaddle();"
+                        name="refresh">refresh</button>
+                </form>
+            </li>
+        </ul>
+        </ul>
+        <ul id="tweets">
+        </ul>
+
+        <!-- The template used to render each tweet. 
+             @variable is replaced with the twitter thing. -->
+        <ul id="tweettemplate">
+            <li id="@id">
+                <a class="user" 
+                   target="_blank" 
+                   title="@screen_name: @name" 
+                   href="@user_url">
+                    <img src="@user_img"
+                         title="@screen_name: @name"/>
+                </a>
+                <span class='text'>@text</span>
+            </li>
+        </ul>
+    </body>
+</html>
