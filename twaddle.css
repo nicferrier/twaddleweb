@@ -49,3 +49,7 @@ img.tweet_user_photo {
 width: 48px;
 height: 48px;
 }
+
+a.tweeter {
+text-decoration: none;
+}

@@ -16,7 +16,7 @@ var twaddle = new Object({
         ).replace(
                 /@([A-Za-z0-9_]+)/g,
             function (str, p1, others) {
-                return "<a target='_blank' href='http://twitter.com/"  + p1 + "'>" + p1 + "</a>";
+                return "<a class='tweeter' target='_blank' href='http://twitter.com/"  + p1 + "'>@" + p1 + "</a>";
             }
         );
     },
@@ -87,7 +87,7 @@ $(document).ready(function () {
         catch (e) {
         }
     });
-    setInterval("twaddle.refresh();", 100000);
+    this.refresh_interval = setInterval("twaddle.refresh();", 100000);
 });
 
 /* end */
