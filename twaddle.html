@@ -12,8 +12,22 @@
     <body>
         <div class="error">
         </div>
+        <div id="toolpanel">
         <ul id="tools">
             <li><h3>twaddle</h3></li>
+            <li>
+                <form id="update"
+                      name="update" 
+                      target="tweetsink"
+                      method="POST"
+                      action="http://api.twitter.com/1/statuses/update.xml">
+                    <textarea cols="100" name="status">
+                    </textarea>
+                    <button 
+                        type="submit" 
+                        name="tweet">tweet!</button>
+                </form>
+            </li>
             <li>
                 <form name="reload">
                     <button 
@@ -22,20 +36,8 @@
                         name="refresh">reload</button>
                 </form>
             </li>
-            <li>
-                <form id="update"
-                      name="update" 
-                      target="tweetsink"
-                      method="POST"
-                      action="http://api.twitter.com/1/statuses/update.xml">
-                    <textarea name="status">
-                    </textarea>
-                    <button 
-                        type="submit" 
-                        name="tweet">tweet!</button>
-                </form>
-            </li>
         </ul>
+        </div>
         <ul id="tweets">
         </ul>
 

@@ -7,11 +7,32 @@ width: 100%;
 background-color: red;
 }
 
+div#toolpanel {
+position: fixed;
+bottom: 0;
+}
+
 ul#tools {
-float: right;
 text-align: right;
 list-style-type: none;
 }
+
+ul#tools li  {
+display: inline;
+}
+
+ul#tools li h3 {
+display: inline;
+}
+
+ul#tools li form {
+display: inline;
+}
+
+ul#tools li form * {
+display: inline;
+}
+
 
 ul#tools textarea {
 display: block;
