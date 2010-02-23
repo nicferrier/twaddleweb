@@ -87,7 +87,7 @@ $(document).ready(function () {
         catch (e) {
         }
     });
-    setInterval("twaddle.refresh();", 10000);
+    setInterval("twaddle.refresh();", 100000);
 });
 
 /* end */
