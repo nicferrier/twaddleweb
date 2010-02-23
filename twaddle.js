@@ -1,10 +1,9 @@
 /*
   twaddle
   
-  a simple twitter client.
+  a very simple in browser twitter client.
 
 
-  ---------------------------------
   Copyright (C) 2010 by Nic Ferrier
  */
 
@@ -30,8 +29,9 @@ var twaddle = new Object({
         // and then pass the resulting HTML to 'fn'
         var urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&callback=?";
         if (since) {
-            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&since_id" + since + "&callback=?";
-            }
+            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
+        }
+
         $.getJSON(
             urlstr,
             function (data) {
@@ -65,32 +65,29 @@ var twaddle = new Object({
     
     "refresh": function () {
         // Refreshes the tweet area with latest data
-        // FIXME::: currently broken
         this.twaddler(
-            function (h) {  $("#tweets").before(h);},
-            $("#tweets")[0].id
+            function (h) {  $("#tweets li:first").before(h);},
+            $("#tweets li:first")[0].id
         );
     },
 
     "update": function () {
-        // Sends your update to twitter.
-        alert("updated!");
-        /*$.post(
-            "http://api.twitter.com/1/statuses/update.json?callback=?", 
-            $("#update").serialize(),
-            function (data, textStatus, request) {
-                alert("tweeted!!");
-            }
-        );*/
+        // Called when your update has been sent to twitter
+        $("textarea[name='status']").val("");
+        this.refresh();
     }
 });
 
 $(document).ready(function () {
     twaddle.reload();
-    $("#tweetpostsink").load(function () {
-        $("textarea[name='status']").val("");
+    $("#tweetpostsink").ready(function () {
+        try {
+            twaddle.update()
+        }
+        catch (e) {
+        }
     });
-    //setInterval("twaddle.refresh();", 5000);
+    setInterval("twaddle.refresh();", 10000);
 });
 
 /* end */
