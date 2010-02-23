@@ -7,7 +7,21 @@
   ---------------------------------
   Copyright (C) 2010 by Nic Ferrier
  */
+
 var twaddle = new Object({
+    "tweet_markup": function (text) {
+        // Simple twitter text markup function
+        return text.replace(
+                /http(s)*(\S+)/g,
+            "<a target='_blank' href='$&'>$&</a>"
+        ).replace(
+                /@([A-Za-z0-9_]+)/g,
+            function (str, p1, others) {
+                return "<a target='_blank' href='http://twitter.com/"  + p1 + "'>" + p1 + "</a>";
+            }
+        );
+    },
+
     "twaddler": function (fn, since) {
         // Main function.
         // Calls twitter with jsonp to get the updates.
@@ -30,7 +44,7 @@ var twaddle = new Object({
                     );
                     var h = $.sprintf(template, { 
                         "id": tweet.id,
-                        "text": tweet.text.replace(/http(s)*(\S+)/, "<a target='_blank' href='$&'>$&</a>"),
+                        "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
                         "user_url": (tweet.user.url) ? tweet.user.url:"http://twitter.com/" + tweet.user.screen_name,
                         "user_img": tweet.user.profile_image_url,
