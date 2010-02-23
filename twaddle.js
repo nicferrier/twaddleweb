@@ -73,21 +73,23 @@ var twaddle = new Object({
 
     "update": function () {
         // Called when your update has been sent to twitter
-        $("textarea[name='status']").val("");
-        this.refresh();
+        try {
+            $("textarea[name='status']").val("");
+            setTimeout(function () { twaddle.refresh();}, 10000);
+        }
+        catch (e) {
+            $("#error").text(e);
+        }
+
+
     }
 });
 
 $(document).ready(function () {
     twaddle.reload();
-    $("#tweetpostsink").ready(function () {
-        try {
-            twaddle.update()
-        }
-        catch (e) {
-        }
-    });
-    this.refresh_interval = setInterval("twaddle.refresh();", 100000);
+    // This would be better as a proper listener
+    $("#tweetpostsink").load(twaddle.update);
+    this.refresh_interval = setInterval(function () { twaddle.refresh();}, 100000);
 });
 
 /* end */
