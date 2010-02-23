@@ -42,7 +42,7 @@ var twaddle = new Object({
                             return "%(" + p1 + ")s";
                         }
                     );
-                    var h = $.sprintf(template, { 
+                    var html = $.sprintf(template, { 
                         "id": tweet.id,
                         "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
@@ -50,7 +50,7 @@ var twaddle = new Object({
                         "user_img": tweet.user.profile_image_url,
                         "name": tweet.user.name
                     });
-                    fn(h);
+                    fn(html, tweet);
                 });
             });
     },
@@ -58,15 +58,21 @@ var twaddle = new Object({
     "reload": function () {
         // Completly initializes the tweet area.
         $("#tweets").empty();
-        this.twaddler(function (h) {
-            $("#tweets").append(h);
+        this.twaddler(function (html, tweet) {
+            if ($("#" + tweet.id).length == 0) {
+                $("#tweets").append(html);
+            }
         });
     },
     
     "refresh": function () {
         // Refreshes the tweet area with latest data
         this.twaddler(
-            function (h) {  $("#tweets li:first").before(h);},
+            function (html, tweet) {  
+                if ($("#" + tweet.id).length == 0) {
+                    $("#tweets li:first").before(html);
+                }
+            },
             $("#tweets li:first")[0].id
         );
     },
