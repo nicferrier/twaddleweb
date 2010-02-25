@@ -3,9 +3,11 @@
   
   a very simple in browser twitter client.
 
+  conformance tests - these would be good:
+  http://github.com/mzsanford/twitter-text-conformance/blob/master/autolink.yml
 
   Copyright (C) 2010 by Nic Ferrier
- */
+*/
 
 var twaddle = new Object({
     "tweet_markup": function (text) {
@@ -16,7 +18,7 @@ var twaddle = new Object({
         ).replace(
                 /@([A-Za-z0-9_]+)/g,
             function (str, p1, others) {
-                return "<a class='tweeter' target='_blank' href='http://twitter.com/"  + p1 + "'>@" + p1 + "</a>";
+                return "<a class='tweet-url username' target='_blank' href='http://twitter.com/"  + p1 + "'>@" + p1 + "</a>";
             }
         );
     },
