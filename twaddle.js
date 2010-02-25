@@ -6,7 +6,7 @@
   conformance tests - these would be good:
   http://github.com/mzsanford/twitter-text-conformance/blob/master/autolink.yml
 
-  Copyright (C) 2010 by Nic Ferrier
+  Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
 */
 
 var twaddle = new Object({
