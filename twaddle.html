@@ -13,34 +13,37 @@
         <div class="error">
         </div>
         <div id="toolpanel">
-        <ul id="tools">
-            <li><h3>twaddle</h3></li>
-            <li>
-                <form id="update"
-                      name="update" 
-                      target="tweetsink"
-                      method="POST"
-                      action="http://api.twitter.com/1/statuses/update.xml">
-                    <textarea cols="100" name="status">
-                    </textarea>
-                    <button 
-                        type="submit" 
-                        name="tweet">tweet!</button>
-                </form>
-            </li>
-            <li>
-                <form name="reload">
-                    <button 
-                        type="button" 
-                        onclick="twaddle.reload();"
-                        name="refresh">reload</button>
-                </form>
-            </li>
-        </ul>
+            <ul id="tools">
+                <li><h3>twaddle</h3></li>
+                <li>
+                    <form id="update"
+                          name="update" 
+                          target="tweetsink"
+                          method="POST"
+                          action="http://api.twitter.com/1/statuses/update.xml">
+                        <textarea tabindex="1" rows="1" cols="100" name="status">
+                        </textarea>
+                        <button 
+                            type="submit" 
+                            tabindex="2"
+                            name="tweet">tweet!</button>
+                    </form>
+                </li>
+                <li>
+                    <form name="reload">
+                        <button 
+                            type="button" 
+                            tabindex="3"
+                            onclick="twaddle.reload();"
+                            name="refresh">reload</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-        <ul id="tweets">
-        </ul>
-
+        <div id="content">
+            <ul id="tweets" tabindex="4">
+            </ul>
+        </div>
         <!-- The template used to render each tweet. 
              @variable is replaced with the twitter thing. -->
         <ul id="tweettemplate">

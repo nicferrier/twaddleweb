@@ -1,3 +1,7 @@
+body {
+margin-left: 0;
+}
+
 .hidden {
 display: none;
 }
@@ -9,12 +13,23 @@ background-color: red;
 
 div#toolpanel {
 position: fixed;
-bottom: 0;
+top: 0;
+margin-top: 0;
+margin-left: 0;
+padding-top: .25em;
+padding-left: 0;
+padding-bottom: 0;
+background-color: RGB(228, 196, 22);
+width: 100%;
 }
 
 ul#tools {
-text-align: right;
+text-align: center;
 list-style-type: none;
+margin-bottom: 0;
+padding-bottom: 0;
+margin-top: 0;
+padding-top: 0;
 }
 
 ul#tools li  {
@@ -31,12 +46,14 @@ display: inline;
 
 ul#tools li form * {
 display: inline;
+background-color: rgb(193, 235, 197);
 }
 
 
 ul#tools textarea {
 display: block;
 }
+
 
 ul#tweettemplate {
 display: none;
@@ -45,6 +62,10 @@ margin-top: 2em;
 
 iframe#tweetpostsink {
 display: none;
+}
+
+div#content {
+margin-top: 3em;
 }
 
 ul#tweets {
@@ -80,6 +101,6 @@ width: 48px;
 height: 48px;
 }
 
-a.tweeter {
+a.tweet-url {
 text-decoration: none;
 }
