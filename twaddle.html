@@ -12,40 +12,59 @@
     <body>
         <div class="error">
         </div>
-        <div id="toolpanel">
-            <ul id="tools">
-                <li><h3>twaddle</h3></li>
-                <li>
-                    <form id="update"
-                          name="update" 
-                          target="tweetsink"
-                          method="POST"
-                          action="http://api.twitter.com/1/statuses/update.xml">
-                        <textarea tabindex="1" rows="1" cols="100" name="status">
-                        </textarea>
-                        <button 
-                            type="submit" 
-                            tabindex="2"
-                            name="tweet">tweet!</button>
-                    </form>
-                </li>
-                <li>
-                    <form name="reload">
-                        <button 
-                            type="button" 
-                            tabindex="3"
-                            onclick="twaddle.reload();"
-                            name="refresh">reload</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+        <ul id="twaddlepanel">
+            <li><h1>twaddle</h1></li>
+            <li>
+                <a 
+                    tabindex="1"
+                    href="javascript:;" 
+                    onclick="$('#updatepanel').removeClass('hidden');$('#textin').focus();">
+                    post
+                </a>
+            </li>
+            <li>
+                <a
+                    href="javascript:;"
+                    onclick="twaddle.reload();">
+                    reload
+                </a>
+            </li>
+            <li>
+                <a
+                    href="javascript:;"
+                    onclick="twaddle.who();">
+                    contacts
+                </a>
+            </li>
+        </ul>
+        <ul id="updatepanel" class="hidden">
+            <li>
+                <form id="update"
+                      name="update" 
+                      target="tweetsink"
+                      method="post"
+                      action="http://api.twitter.com/1/statuses/update.xml">
+                    <textarea id="textin" tabindex="2" rows="1" cols="70" name="status"></textarea>
+                    <input
+                        type="submit" 
+                        tabindex="3"
+                        name="tweet"
+                        value="tweet!"/>
+                    <input
+                        name="cancel"
+                        tabindex="4"
+                        type="reset"
+                        onclick="$('#updatepanel').addClass('hidden');"
+                        value="cancel"/>
+                </form>
+            </li>
+        </ul>
         <div id="whopanel" class="hidden">
             <ul id="who">
             </ul>
             <button type="cancel"
                     tabindex="1"
-                    onclick="$('#whopanel').toggleClass('hidden');">quit</button>
+                    onclick="$('#whopanel').addClass('hidden');">quit</button>
         </div>
         <div id="content">
             <ul id="tweets">

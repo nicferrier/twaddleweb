@@ -9,6 +9,8 @@
   Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
 */
 
+/** A very simple jquery based templater.
+ */
 var template = new Object({
     "exec": function (template_id, template_values) {
         var template = $(template_id).html().replace(
@@ -44,9 +46,9 @@ var twaddle = new Object({
         // Can pass in 'since' if it's supplied.
         // When the updates arrive formats them as per the #tweettemplate
         // and then pass the resulting HTML to 'fn'
-        var urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=100&callback=?";
+        var urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&callback=?";
         if (since) {
-            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=100&since_id=" + since + "&callback=?";
+            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
         }
 
         $.getJSON(
@@ -101,7 +103,9 @@ var twaddle = new Object({
                 "description": user.description,
                 "name": user.name
             });
-            $("#who").append(html)
+            if ($("#" + user_name).length == 0) {
+                $("#who").append(html)
+            }
         });
         $("#whopanel").toggleClass("hidden");
     },
@@ -109,14 +113,12 @@ var twaddle = new Object({
     "update": function () {
         // Called when your update has been sent to twitter
         try {
-            $("textarea[name='status']").val("");
+            $("input[name='cancel']").trigger("click");
             setTimeout(function () { twaddle.refresh();}, 10000);
         }
         catch (e) {
             $("#error").text(e);
         }
-
-
     }
 });
 
