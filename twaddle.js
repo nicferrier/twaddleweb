@@ -9,7 +9,22 @@
   Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
 */
 
+var template = new Object({
+    "exec": function (template_id, template_values) {
+        var template = $(template_id).html().replace(
+                /\@(\w+)/g, 
+            function (str, p1, others) {
+                return "%(" + p1 + ")s";
+            }
+        );
+        var html = $.sprintf(template, template_values);
+        return html;
+    }
+});
+
 var twaddle = new Object({
+    "contacts": {},
+
     "tweet_markup": function (text) {
         // Simple twitter text markup function
         return text.replace(
@@ -29,28 +44,27 @@ var twaddle = new Object({
         // Can pass in 'since' if it's supplied.
         // When the updates arrive formats them as per the #tweettemplate
         // and then pass the resulting HTML to 'fn'
-        var urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&callback=?";
+        var urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=100&callback=?";
         if (since) {
-            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
+            urlstr = "http://api.twitter.com/1/statuses/home_timeline.json?count=100&since_id=" + since + "&callback=?";
         }
 
         $.getJSON(
             urlstr,
             function (data) {
                 $.each(data, function(item, tweet) {
-                    var template = $("#tweettemplate").html().replace(
-                            /\@(\w+)/g, 
-                        function (str, p1, others) {
-                            return "%(" + p1 + ")s";
-                        }
-                    );
-                    var html = $.sprintf(template, { 
+                    // Store the contact for later
+                    twaddle.contacts[tweet.user.screen_name] = tweet.user;
+
+                    // Make some HTML
+                    var html = template.exec("#tweettemplate", { 
                         "id": tweet.id,
                         "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
                         "user_url": (tweet.user.url) ? tweet.user.url:"http://twitter.com/" + tweet.user.screen_name,
                         "user_img": tweet.user.profile_image_url,
-                        "name": tweet.user.name
+                        "name": tweet.user.name,
+                        "created_at": tweet.created_at
                     });
                     fn(html, tweet);
                 });
@@ -77,6 +91,19 @@ var twaddle = new Object({
             },
             $("#tweets li:first")[0].id
         );
+    },
+
+    "who": function () {
+        $.each(this.contacts, function(user_name, user) {
+            var html = template.exec("#whotemplate", {
+                "screen_name": user_name,
+                "user_img": user.profile_image_url,
+                "description": user.description,
+                "name": user.name
+            });
+            $("#who").append(html)
+        });
+        $("#whopanel").toggleClass("hidden");
     },
 
     "update": function () {

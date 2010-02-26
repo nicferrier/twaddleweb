@@ -40,14 +40,22 @@
                 </li>
             </ul>
         </div>
+        <div id="whopanel" class="hidden">
+            <ul id="who">
+            </ul>
+            <button type="cancel"
+                    tabindex="1"
+                    onclick="$('#whopanel').toggleClass('hidden');">quit</button>
+        </div>
         <div id="content">
-            <ul id="tweets" tabindex="4">
+            <ul id="tweets">
             </ul>
         </div>
         <!-- The template used to render each tweet. 
              @variable is replaced with the twitter thing. -->
         <ul id="tweettemplate">
-            <li id="@id">
+            <li class="tweet" id="@id">
+                <div class="date">@created_at</div>
                 <a class="user" 
                    target="_blank" 
                    title="@screen_name: @name" 
@@ -57,6 +65,13 @@
                          title="@screen_name: @name"/>
                 </a>
                 <span class='text'>@text</span>
+            </li>
+        </ul>
+        <!-- This template is used to render the contacts
+        -->
+        <ul id="whotemplate">
+            <li id="@screen_name">
+                <img src="@user_img" alt="@description" title="@name"/>
             </li>
         </ul>
         <iframe name="tweetsink" id="tweetpostsink">
