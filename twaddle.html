@@ -13,11 +13,17 @@
         <div class="error">
         </div>
         <ul id="twaddlepanel">
-            <li><h1>twaddle</h1></li>
+            <li>
+                <h1 
+                    title="the ridiculously single page twitter client">
+                    twaddle
+                </h1>
+            </li>
             <li>
                 <a 
                     tabindex="1"
                     href="javascript:;" 
+                    title="post something to twitter"
                     onclick="$('#updatepanel').removeClass('hidden');$('#textin').focus();">
                     post
                 </a>
@@ -25,6 +31,7 @@
             <li>
                 <a
                     href="javascript:;"
+                    title="force refresh the twitter feed"
                     onclick="twaddle.reload();">
                     reload
                 </a>
@@ -32,6 +39,7 @@
             <li>
                 <a
                     href="javascript:;"
+                    title="pop up your contacts"
                     onclick="twaddle.who();">
                     contacts
                 </a>

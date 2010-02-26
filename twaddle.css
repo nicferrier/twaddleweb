@@ -19,7 +19,7 @@ margin-left: 0;
 padding-top: .25em;
 padding-left: 0;
 padding-bottom: 0;
-background-color: RGB(228, 196, 22);
+background-color: #FBC56D;
 width: 100%;
 }
 
@@ -47,19 +47,43 @@ display: inline;
 list-style-type: none;
 margin-bottom: 0;
 padding-bottom: 0;
+padding-top: 0;
+margin-bottom: 0;
+background-color: #FBC56D;
+color: white;
 }
 
 ul#twaddlepanel li {
 display: inline;
+padding-right: 1em;
 }
 
 ul#twaddlepanel li h1 {
 display: inline;
+padding-left: .3em;
+padding-right: .3em;
+background-color: #FBC56D;
+color: white;
 }
 
 ul#twaddlepanel li a {
 display: inline;
 text-decoration: none;
+}
+
+ul#twaddlepanel li a:visited {
+background-color: #FBC56D;
+color: white;
+}
+
+ul#twaddlepanel li a:link {
+background-color: #FBC56D;
+color: white;
+}
+
+ul#twaddlepanel li a:active {
+background-color: #FBC56D;
+color: yellow;
 }
 
 
@@ -73,7 +97,7 @@ right: 20%;
 height: 30%;
 overflow: auto;
 z-index: 12;
-background-color: RGB(228, 196, 22);
+background-color: #FBD5B4;
 border-style: solid;
 border-color: brown;
 }
@@ -91,7 +115,7 @@ right: 20%;
 height: 60%;
 overflow: auto;
 z-index: 12;
-background-color: RGB(228, 196, 22);
+background-color: #FBD5B4;
 border-style: solid;
 border-color: brown;
 }
@@ -153,4 +177,12 @@ color: #989aae;
 
 a.tweet-url {
 text-decoration: none;
+}
+
+a:visited {
+color: #BE8F51;
+}
+
+a:link {
+color: #71512F;
 }
