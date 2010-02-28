@@ -54,21 +54,45 @@ var twaddle = new Object({
         $.getJSON(
             urlstr,
             function (data) {
-                $.each(data, function(item, tweet) {
-                    // Store the contact for later
-                    twaddle.contacts[tweet.user.screen_name] = tweet.user;
+                $.each(data.reverse(), function(item, tweet) {
+                    // Store the contact for later, including how many tweets
+                    if (twaddle.contacts[tweet.user.screen_name] == undefined) {
+                        tweet.user.tweet_count = 1;
+                        twaddle.contacts[tweet.user.screen_name] = tweet.user;
+                    }
+                    else {
+                        twaddle.contacts[tweet.user.screen_name].tweet_count++;
+                    }
 
-                    // Make some HTML
-                    var html = template.exec("#tweettemplate", { 
+                    // Pull out the attribs
+                    attribs = { 
                         "id": tweet.id,
                         "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
                         "user_url": (tweet.user.url) ? tweet.user.url:"http://twitter.com/" + tweet.user.screen_name,
                         "user_img": tweet.user.profile_image_url,
                         "name": tweet.user.name,
-                        "created_at": tweet.created_at
-                    });
-                    fn(html, tweet);
+                        "created_at": tweet.created_at,
+                        "reply_class": "hidden"
+                    };
+                    if (tweet.in_reply_to_status_id != undefined) {
+                        console.log("found a reply!");
+                        var id = tweet.in_reply_to_status_id;
+                        var screen_name = tweet.in_reply_to_screen_name;
+                        attribs["reply_class"] = "";
+                        attribs["reply_id"] = id;
+                        attribs["reply_html"] = $('#' + id + " span.text").html();
+                        var contact = twaddle.contacts[screen_name];
+                        if (contact != undefined) {
+                            attribs["reply_screen_name"] = screen_name;
+                            attribs["reply_name"] = contact.name;
+                            attribs["reply_user_url"] = contact.user_url;
+                            attribs["reply_user_img"] = contact.profile_image_url;
+                            attribs["reply_created_at"] = $('#' + id + " div.date").text();
+                            attribs["reply_html"] = $('#' + id + " span.text").html();
+                        }
+                    }
+                    fn(attribs, tweet);
                 });
             });
     },
@@ -76,9 +100,10 @@ var twaddle = new Object({
     "reload": function () {
         // Completly initializes the tweet area.
         $("#tweets").empty();
-        this.twaddler(function (html, tweet) {
+        this.twaddler(function (attribs, tweet) {
             if ($("#" + tweet.id).length == 0) {
-                $("#tweets").append(html);
+                var html = template.exec("#tweettemplate", attribs);
+                $("#tweets").prepend(html);
             }
         });
     },
@@ -86,9 +111,10 @@ var twaddle = new Object({
     "refresh": function () {
         // Refreshes the tweet area with latest data
         this.twaddler(
-            function (html, tweet) {  
+            function (attribs, tweet) {  
                 if ($("#" + tweet.id).length == 0) {
-                    $("#tweets li:first").before(html);
+                    var html = template.exec("#tweettemplate", attribs);
+                    $("#tweets").prepend(html);
                 }
             },
             $("#tweets li:first")[0].id
@@ -101,7 +127,8 @@ var twaddle = new Object({
                 "screen_name": user_name,
                 "user_img": user.profile_image_url,
                 "description": user.description,
-                "name": user.name
+                "name": user.name,
+                "tweet_count": user.tweet_count
             });
             if ($("#" + user_name).length == 0) {
                 $("#who").append(html)

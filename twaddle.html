@@ -52,7 +52,16 @@
                       target="tweetsink"
                       method="post"
                       action="http://api.twitter.com/1/statuses/update.xml">
-                    <textarea id="textin" tabindex="2" rows="1" cols="70" name="status"></textarea>
+                    <input 
+                        type="hidden" 
+                        id="reply_id"
+                        name="in_reply_to_status_id" value=""/>
+                    <textarea 
+                        id="textin" 
+                        tabindex="2" 
+                        rows="1" 
+                        cols="70" 
+                        name="status"></textarea>
                     <input
                         type="submit" 
                         tabindex="3"
@@ -65,6 +74,8 @@
                         onclick="$('#updatepanel').addClass('hidden');"
                         value="cancel"/>
                 </form>
+            </li>
+            <li id="update_reply" class="hidden">
             </li>
         </ul>
         <div id="whopanel" class="hidden">
@@ -92,13 +103,33 @@
                          title="@screen_name: @name"/>
                 </a>
                 <span class='text'>@text</span>
+                <a href="javascript:;"
+                   class="reply"
+                   title="reply to this post"
+                   onclick="$('#updatepanel').removeClass('hidden');
+$('#reply_id').attr('value','@id');
+$('#textin').focus();">
+                    [R]
+                </a>
             </li>
+            <li class="tweet reply @reply_class" id="@reply_id">
+                <div class="date">@reply_created_at</div>
+                <a class="user" 
+                   target="_blank" 
+                   title="@reply_screen_name: @reply_name" 
+                   href="@reply_user_url">
+                    <img class="tweet_user_photo"
+                         src="@reply_user_img"
+                         title="@reply_screen_name: @reply_name"/>
+                </a>
+                <span class='text'>@reply_html</span>
+           </li>
         </ul>
         <!-- This template is used to render the contacts
         -->
         <ul id="whotemplate">
             <li id="@screen_name">
-                <img src="@user_img" alt="@description" title="@name"/>
+                <img src="@user_img" alt="@description" title="@name @tweet_count"/>
             </li>
         </ul>
         <iframe name="tweetsink" id="tweetpostsink">

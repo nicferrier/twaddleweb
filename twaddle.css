@@ -3,7 +3,7 @@ margin-left: 0;
 }
 
 .hidden {
-display: none;
+display: none !important;
 }
 
 div.error {
@@ -148,6 +148,10 @@ display: block;
 margin-left: 3em;
 }
 
+ul#tweets li.reply {
+margin-left: 4em;
+}
+
 a.user img {
 display: block;
 margin-left: 0em;
@@ -185,4 +189,8 @@ color: #BE8F51;
 
 a:link {
 color: #71512F;
+}
+
+li.tweet a.reply {
+font-size: .75em;
 }
