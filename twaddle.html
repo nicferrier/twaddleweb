@@ -109,7 +109,7 @@ $('#textin').text('');"/>
                    title="reply to this post"
                    onclick="$('#updatepanel').removeClass('hidden');
 $('#reply_id').attr('value','@id');
-$('#textin').text('@@screen_name');
+$('#textin').text('@@screen_name ');
 $('#textin').focus();">
                     [R]
                 </a>
@@ -131,7 +131,10 @@ $('#textin').focus();">
         -->
         <ul id="whotemplate">
             <li id="@screen_name">
-                <img src="@user_img" alt="@description" title="@name @tweet_count"/>
+                <img src="@user_img" 
+                     class="tweet_user_photo" 
+                     alt="@description" 
+                     title="@name @tweet_count"/>
             </li>
         </ul>
         <iframe name="tweetsink" id="tweetpostsink">

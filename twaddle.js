@@ -90,6 +90,9 @@ var twaddle = new Object({
                             attribs["reply_created_at"] = $('#' + id + " div.date").text();
                             attribs["reply_html"] = $('#' + id + " span.text").html();
                         }
+                        
+                        // Now delete the original reply
+                        $("#" + id).remove();
                     }
                     fn(attribs, tweet);
                 });
