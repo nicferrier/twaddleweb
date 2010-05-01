@@ -136,6 +136,7 @@ var twaddle = new Object({
                 $("#who").append(html)
             }
         });
+        $("#content").toggleClass("hidden");
         $("#whopanel").toggleClass("hidden");
     },
 

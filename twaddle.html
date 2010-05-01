@@ -82,9 +82,11 @@ $('#textin').text('');"/>
         <div id="whopanel" class="hidden">
             <ul id="who">
             </ul>
-            <button type="cancel"
+            <button id="whoquit"
+                    type="cancel"
                     tabindex="1"
-                    onclick="$('#whopanel').addClass('hidden');">quit</button>
+                    onclick="$('#whopanel').toggleClass('hidden');$('#content').toggleClass('hidden');"
+                    >quit</button>
         </div>
         <div id="content">
             <ul id="tweets">
@@ -134,11 +136,13 @@ $('#textin').focus();">
         <!-- This template is used to render the contacts
         -->
         <ul id="whotemplate">
-            <li id="@screen_name">
-                <img src="@user_img" 
-                     class="tweet_user_photo" 
-                     alt="@description" 
-                     title="@name @tweet_count"/>
+            <li id="@screen_name" class="contact">
+                <a href="http://twitter.com/@screen_name" target="_new">
+                    <img src="@user_img" 
+                         class="tweet_user_photo" 
+                         alt="@description" 
+                         title="@name @tweet_count"/>
+                </a>
             </li>
         </ul>
         <iframe name="tweetsink" id="tweetpostsink">
