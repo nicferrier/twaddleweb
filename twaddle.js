@@ -13,14 +13,19 @@
  */
 var template = new Object({
     "exec": function (template_id, template_values) {
-        var template = $(template_id).html().replace(
-                /\@(\w+)/g, 
-            function (str, p1, others) {
-                return "%(" + p1 + ")s";
-            }
-        );
-        var html = $.sprintf(template, template_values);
-        return html;
+        try {
+            var template = $(template_id).html().replace(
+                    /\@(\w+)/g, 
+                function (str, p1, others) {
+                    return "%(" + p1 + ")s";
+                }
+            );
+            var html = $.sprintf(template, template_values);
+            return html;
+        }
+        catch (e) {
+            ;
+        }
     }
 });
 
