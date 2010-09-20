@@ -35,7 +35,7 @@ var twaddle = new Object({
     "tweet_markup": function (text) {
         // Simple twitter text markup function
         return text.replace(
-                /http(s)*(\S+)/g,
+                /[hH][tT][tT][pP](s)*(\S+)/g,
             "<a target='_blank' href='$&'>$&</a>"
         ).replace(
                 /@([A-Za-z0-9_]+)/g,
