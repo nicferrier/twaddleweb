@@ -40,7 +40,7 @@ var twaddle = new Object({
         ).replace(
                 /@([A-Za-z0-9_]+)/g,
             function (str, p1, others) {
-                return "<a class='tweet-url username' target='_blank' href='http://twitter.com/"  + p1 + "'>@" + p1 + "</a>";
+                return "<a class='tweet-url username' target='_blank' href='http://mobile.twitter.com/"  + p1 + "'>@" + p1 + "</a>";
             }
         );
     },
@@ -74,7 +74,7 @@ var twaddle = new Object({
                         "id": tweet.id,
                         "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
-                        "user_url": (tweet.user.url) ? tweet.user.url:"http://twitter.com/" + tweet.user.screen_name,
+                        "user_url": (tweet.user.url) ? tweet.user.url:"http://mobile.twitter.com/" + tweet.user.screen_name,
                         "user_img": tweet.user.profile_image_url,
                         "name": tweet.user.name,
                         "created_at": tweet.created_at,
