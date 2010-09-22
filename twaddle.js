@@ -9,6 +9,7 @@
   Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
 */
 
+
 /** A very simple jquery based templater.
  * Has a single method 'exec' which takes:
  *
@@ -51,8 +52,9 @@ var twaddle = new Object({
 
     "contacts": {},
 
+    /** Simple twitter text markup function
+     */
     "tweet_markup": function (text) {
-        // Simple twitter text markup function
         return text.replace(
                 /[hH][tT][tT][pP](s)*(\S+)/g,
             "<a target='_blank' href='$&'>$&</a>"
@@ -64,12 +66,13 @@ var twaddle = new Object({
         );
     },
 
+    /** Main function.
+     * Calls twitter with jsonp to get the updates.
+     * Can pass in 'since' if it's supplied.
+     * When the updates arrive formats them as per the #tweettemplate
+     * and then pass the resulting HTML to 'fn'
+     */
     "twaddler": function (fn, since) {
-        // Main function.
-        // Calls twitter with jsonp to get the updates.
-        // Can pass in 'since' if it's supplied.
-        // When the updates arrive formats them as per the #tweettemplate
-        // and then pass the resulting HTML to 'fn'
         var urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=200&callback=?";
         if (since) {
             urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
@@ -123,6 +126,8 @@ var twaddle = new Object({
             });
     },
 
+    /** Refresh the whole tweet area with another full download from twitter.
+     */
     "reload": function () {
         // Completly initializes the tweet area.
         $("#tweets").empty();
@@ -139,7 +144,9 @@ var twaddle = new Object({
             }
         });
     },
-    
+
+    /** Just poll twitter for the latest.
+     */
     "refresh": function () {
         var template = this.template;
         // Refreshes the tweet area with latest data
@@ -159,6 +166,8 @@ var twaddle = new Object({
         );
     },
 
+    /** Present who has tweeted in the current session
+     */
     "who": function () {
         var template = this.template;
         $.each(this.contacts, function(user_name, user) {
@@ -182,6 +191,8 @@ var twaddle = new Object({
         $("#whopanel").toggleClass("hidden");
     },
 
+    /** You're updating twitter
+     */
     "update": function () {
         // Called when your update has been sent to twitter
         try {
