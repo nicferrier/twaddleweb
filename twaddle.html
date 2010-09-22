@@ -92,50 +92,6 @@ $('#textin').text('');"/>
             <ul id="tweets">
             </ul>
         </div>
-        <!-- The template used to render each tweet. 
-             @variable is replaced with the twitter thing. -->
-        <ul id="tweettemplate">
-            <li class="tweet" id="@id">
-                <div class="date">@created_at</div>
-                <a class="user" 
-                   target="_blank" 
-                   title="@screen_name: @name" 
-                   href="@user_url">
-                    <img class="tweet_user_photo"
-                         src="@user_img"
-                         title="@screen_name: @name"/>
-                </a>
-                <span class='text'>@text</span>
-                <a href="javascript:;"
-                   class="reply"
-                   title="reply to this post"
-                   onclick="$('#updatepanel').removeClass('hidden');
-$('#reply_id').attr('value','@id');
-$('#textin').text('@@screen_name ');
-$('#textin').focus();">
-                    [R]
-                </a>
-                <a href="http://mobile.twitter.com/@screen_name"
-                   class="reply"
-                   target="_blank"
-                   title="@screen_name">[t]</a>
-                <a href="http://mobile.twitter.com/@screen_name/status/@id" 
-                   class="reply"
-                   target="_blank">[.]</a>
-            </li>
-            <li class="tweet reply @reply_class" id="@reply_id">
-                <div class="date">@reply_created_at</div>
-                <a class="user" 
-                   target="_blank" 
-                   title="@reply_screen_name: @reply_name" 
-                   href="@reply_user_url">
-                    <img class="tweet_user_photo"
-                         src="@reply_user_img"
-                         title="@reply_screen_name: @reply_name"/>
-                </a>
-                <span class='text'>@reply_html</span>
-           </li>
-        </ul>
         <!-- This template is used to render the contacts
         -->
         <ul id="whotemplate">

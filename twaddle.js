@@ -10,24 +10,60 @@
 */
 
 /** A very simple jquery based templater.
+ * Has a single method 'exec' which takes:
+ *
+ * @template_name the name of a template
+ *  templates are stored as html files congruent with the main html file
+ * @template_values JSON to be interpolated
+ * @callback function to call with the templated HTML
  */
-var template = new Object({
-    "exec": function (template_id, template_values) {
-        try {
-            var template = $(template_id).html().replace(
-                    /\@(\w+)/g, 
-                function (str, p1, others) {
-                    return "%(" + p1 + ")s";
+function templater() {
+    // Note: the cache here doesn't seem to work, 
+    // seems the ajax calls happen before any callbacks come in
+    var cache = new Object();
+    var self = {
+        "exec": function (template_name, template_values, callback) {
+            var cb = callback;
+            try {
+                if (cache[template_name] == null) {
+                    $.ajax({
+                        "url": template_name + ".html",
+                        "dataType": "html",
+                        "success": function (data, text_status, xmlhttprequest) {
+                            cache[template_name] = data;
+
+                            var template = data.replace(
+                                    /\@(\w+)/g, 
+                                function (str, p1, others) {
+                                    return "%(" + p1 + ")s";
+                                }
+                            );
+                            var html_data = $.sprintf(template, template_values);
+                            cb(html_data);
+                        }
+                    });
                 }
-            );
-            var html = $.sprintf(template, template_values);
-            return html;
+                else {
+                    var data = cache[template_name];
+                    var template = data.replace(
+                            /\@(\w+)/g, 
+                        function (str, p1, others) {
+                            return "%(" + p1 + ")s";
+                        }
+                    );
+                    var html_data = $.sprintf(template, template_values);
+                    cb(html_data);
+                }
+            }
+            catch (e) {
+                ;
+            }
         }
-        catch (e) {
-            ;
-        }
-    }
-});
+    };
+    return self;
+}
+
+var template = templater();
 
 var twaddle = new Object({
     "contacts": {},
@@ -109,8 +145,13 @@ var twaddle = new Object({
         $("#tweets").empty();
         this.twaddler(function (attribs, tweet) {
             if ($("#" + tweet.id).length == 0) {
-                var html = template.exec("#tweettemplate", attribs);
-                $("#tweets").prepend(html);
+                template.exec(
+                    "_template_tweet", 
+                    attribs,
+                    function (html_data) {
+                        $("#tweets").prepend(html_data);
+                    }
+                );
             }
         });
     },
@@ -120,8 +161,13 @@ var twaddle = new Object({
         this.twaddler(
             function (attribs, tweet) {  
                 if ($("#" + tweet.id).length == 0) {
-                    var html = template.exec("#tweettemplate", attribs);
-                    $("#tweets").prepend(html);
+                    template.exec(
+                        "_template_tweet", 
+                        attribs,
+                        function (html_data) {
+                            $("#tweets").prepend(html);
+                        }
+                    );
                 }
             },
             $("#tweets li:first")[0].id
