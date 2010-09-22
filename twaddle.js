@@ -148,16 +148,15 @@ var twaddle = new Object({
     /** Just poll twitter for the latest.
      */
     "refresh": function () {
-        var template = this.template;
         // Refreshes the tweet area with latest data
         this.twaddler(
             function (attribs, tweet) {  
                 if ($("#" + tweet.id).length == 0) {
-                    template.exec(
+                    twaddle.template.exec(
                         "_template_tweet", 
                         attribs,
                         function (html_data) {
-                            $("#tweets").prepend(html);
+                            $("#tweets").prepend(html_data);
                         }
                     );
                 }
