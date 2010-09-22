@@ -14,46 +14,28 @@
  *
  * @template_name the name of a template
  *  templates are stored as html files congruent with the main html file
+ *  NO caching is done - use your webserver to suggest caching
  * @template_values JSON to be interpolated
  * @callback function to call with the templated HTML
  */
 function templater() {
-    // Note: the cache here doesn't seem to work, 
-    // seems the ajax calls happen before any callbacks come in
-    var cache = new Object();
     var self = {
         "exec": function (template_name, template_values, callback) {
-            var cb = callback;
             try {
-                if (cache[template_name] == null) {
-                    $.ajax({
-                        "url": template_name + ".html",
-                        "dataType": "html",
-                        "success": function (data, text_status, xmlhttprequest) {
-                            cache[template_name] = data;
-
-                            var template = data.replace(
-                                    /\@(\w+)/g, 
-                                function (str, p1, others) {
-                                    return "%(" + p1 + ")s";
-                                }
-                            );
-                            var html_data = $.sprintf(template, template_values);
-                            cb(html_data);
-                        }
-                    });
-                }
-                else {
-                    var data = cache[template_name];
-                    var template = data.replace(
-                            /\@(\w+)/g, 
-                        function (str, p1, others) {
-                            return "%(" + p1 + ")s";
-                        }
-                    );
-                    var html_data = $.sprintf(template, template_values);
-                    cb(html_data);
-                }
+                $.ajax({
+                    "url": template_name + ".html",
+                    "dataType": "html",
+                    "success": function (data, text_status, xmlhttprequest) {
+                        var template = data.replace(
+                                /\@(\w+)/g, 
+                            function (str, p1, others) {
+                                return "%(" + p1 + ")s";
+                            }
+                        );
+                        var html_data = $.sprintf(template, template_values);
+                        callback(html_data);
+                    }
+                });
             }
             catch (e) {
                 ;
@@ -63,9 +45,10 @@ function templater() {
     return self;
 }
 
-var template = templater();
 
 var twaddle = new Object({
+    "template": templater(),
+
     "contacts": {},
 
     "tweet_markup": function (text) {
@@ -143,6 +126,7 @@ var twaddle = new Object({
     "reload": function () {
         // Completly initializes the tweet area.
         $("#tweets").empty();
+        var template = this.template;
         this.twaddler(function (attribs, tweet) {
             if ($("#" + tweet.id).length == 0) {
                 template.exec(
@@ -157,6 +141,7 @@ var twaddle = new Object({
     },
     
     "refresh": function () {
+        var template = this.template;
         // Refreshes the tweet area with latest data
         this.twaddler(
             function (attribs, tweet) {  
@@ -175,17 +160,23 @@ var twaddle = new Object({
     },
 
     "who": function () {
+        var template = this.template;
         $.each(this.contacts, function(user_name, user) {
-            var html = template.exec("#whotemplate", {
-                "screen_name": user_name,
-                "user_img": user.profile_image_url,
-                "description": user.description,
-                "name": user.name,
-                "tweet_count": user.tweet_count
-            });
-            if ($("#" + user_name).length == 0) {
-                $("#who").append(html)
-            }
+            var html = template.exec(
+                "_template_who", 
+                {
+                    "screen_name": user_name,
+                    "user_img": user.profile_image_url,
+                    "description": user.description,
+                    "name": user.name,
+                    "tweet_count": user.tweet_count
+                },
+                function (html_data) {
+                    if ($("#" + user_name).length == 0) {
+                        $("#who").append(html_data)
+                    }
+                }
+            );
         });
         $("#content").toggleClass("hidden");
         $("#whopanel").toggleClass("hidden");
