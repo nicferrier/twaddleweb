@@ -137,7 +137,7 @@ margin-right: 7em;
 list-style-type: none;
 }
 
-ul#tweets li {
+ul#tweets li.tweet {
 height: 60px;
 border-bottom-style: solid;
 border-bottom-width: thin;
@@ -194,4 +194,13 @@ color: #71512F;
 
 li.tweet a.reply {
 font-size: .75em;
+}
+
+li.tweet_reply_maker {
+list-style-type: none;
+background-color: #FBD5B4;
+margin-left: 3em;
+margin-top: 1em;
+margin-bottom: 1em;
+padding: 1em 1em;
 }

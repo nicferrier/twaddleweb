@@ -14,10 +14,10 @@
         <a href="javascript:;"
            class="reply"
            title="reply to this post"
-           onclick="$('#updatepanel').removeClass('hidden');
-                    $('#reply_id').attr('value','@id');
-                    $('#textin').text('@@screen_name ');
-                    $('#textin').focus();">
+           onclick="$('#reply_maker_@id').removeClass('hidden');
+                    $('#reply_id_@id').attr('value','@id');
+                    $('#textin_@id').text('@@screen_name ');
+                    $('#textin_@id').focus();">
             [R]
         </a>
         <a href="http://mobile.twitter.com/@screen_name"
@@ -27,6 +27,36 @@
         <a href="http://mobile.twitter.com/@screen_name/status/@id" 
            class="reply"
            target="_blank">[.]</a>
+    </li>
+    <li class="tweet_reply_maker hidden" id="reply_maker_@id">
+        <form id="update"
+              name="update" 
+              target="tweetsink"
+              method="post"
+              action="http://api.supertweet.net/1/statuses/update.xml">
+            <input 
+                type="hidden" 
+                id="reply_id_@id"
+                name="in_reply_to_status_id" value=""/>
+            <textarea 
+                id="textin_@id" 
+                tabindex="2" 
+                rows="1" 
+                cols="70" 
+                name="status"></textarea>
+            <input
+                type="submit" 
+                tabindex="3"
+                name="tweet"
+                value="tweet!"/>
+            <input
+                name="cancel"
+                tabindex="4"
+                type="reset"
+                value="cancel"
+                onclick="$('#reply_maker_@id').addClass('hidden');
+                         $('#textin_@id').text('');"/>
+        </form>
     </li>
     <li class="tweet reply @reply_class" id="@reply_id">
         <div class="date">@reply_created_at</div>
