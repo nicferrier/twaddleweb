@@ -50,6 +50,7 @@ function templater() {
 var twaddle = new Object({
     "template": templater(),
 
+    "data": {},
     "contacts": {},
 
     /** Simple twitter text markup function
@@ -77,10 +78,11 @@ var twaddle = new Object({
         if (since) {
             urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
         }
-
+        
         var x = $.getJSON(
             urlstr,
             function (data, textStatus) {
+                twaddle.data = data;
                 $.each(data.reverse(), function(item, tweet) {
                     // Store the contact for later, including how many tweets
                     if (twaddle.contacts[tweet.user.screen_name] == undefined) {
@@ -93,6 +95,7 @@ var twaddle = new Object({
 
                     // Pull out the attribs
                     attribs = { 
+                        "twitter_host": "http://api.supertweet.net/1/statuses/update.xml",
                         "id": tweet.id,
                         "text": twaddle.tweet_markup(tweet.text),
                         "screen_name": tweet.user.screen_name,
@@ -106,19 +109,37 @@ var twaddle = new Object({
                     // would like to make proper thread list pulling in all refs to the thread
                     if (tweet.in_reply_to_status_id != undefined
                         && twaddle.contacts[tweet.in_reply_to_screen_name] != undefined) {
-                        var id = tweet.in_reply_to_status_id;
-                        var screen_name = tweet.in_reply_to_screen_name;
-                        attribs["reply_class"] = "";
-                        attribs["reply_id"] = id;
-                        attribs["reply_html"] = $('#' + id + " span.text").html();
-                        var contact = twaddle.contacts[screen_name];
-                        if (contact != undefined) {
-                            attribs["reply_screen_name"] = screen_name;
-                            attribs["reply_name"] = contact.name;
-                            attribs["reply_user_url"] = contact.user_url;
-                            attribs["reply_user_img"] = contact.profile_image_url;
-                            attribs["reply_created_at"] = $('#' + id + " div.date").text();
-                            attribs["reply_html"] = $('#' + id + " span.text").html();
+                        try {
+                            // FIXME:
+                            // I don't think this is the right way to do this
+                            // want to find 1 result and return the result
+                            // takewhile?
+                            var in_reply_to = $.grep(
+                                twaddle.data, 
+                                function(e, i) {
+                                    var matched = e.id == tweet.in_reply_to_status_id;
+                                    return matched;
+                                }
+                            );
+                            if (in_reply_to.length >0) {
+                                var id = in_reply_to[0].id;
+                                var screen_name = tweet.in_reply_to_screen_name;
+                                attribs["reply_class"] = "";
+                                attribs["reply_id"] = id;
+                                attribs["reply_html"] = twaddle.tweet_markup(in_reply_to[0].text);
+                                var contact = twaddle.contacts[screen_name];
+                                if (contact != undefined) {
+                                    attribs["reply_screen_name"] = screen_name;
+                                    attribs["reply_name"] = contact.name;
+                                    attribs["reply_user_url"] = contact.user_url;
+                                    attribs["reply_user_img"] = contact.profile_image_url;
+                                    attribs["reply_created_at"] = in_reply_to[0].created_at;
+                                    //attribs["reply_html"] = $('#' + id + " span.text").html();
+                                }
+                            }
+                        }
+                        catch (e) {
+                            console.log("problem when processing a reply");
                         }
                     }
                     fn(attribs, tweet);
@@ -160,8 +181,8 @@ var twaddle = new Object({
                         }
                     );
                 }
-            },
-            $("#tweets li:first")[0].id
+            }
+            // $("#tweets li:first")[0].id
         );
     },
 
