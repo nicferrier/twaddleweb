@@ -1,12 +1,12 @@
 /*
-  twaddle
-  
-  a very simple in browser twitter client.
-
-  conformance tests - these would be good:
-  http://github.com/mzsanford/twitter-text-conformance/blob/master/autolink.yml
-
-  Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
+ *  twaddle
+ *
+ *  a very simple in browser twitter client.
+ *
+ *  conformance tests - these would be good:
+ *  http://github.com/mzsanford/twitter-text-conformance/blob/master/autolink.yml
+ *
+ *  Copyright (C) 2010 by Nic Ferrier - http://twitter.com/nicferrier
 */
 
 
@@ -74,9 +74,10 @@ var twaddle = new Object({
      * and then pass the resulting HTML to 'fn'
      */
     "twaddler": function (fn, since) {
-        var urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=200&callback=?";
+        var tweet_count = 200;
+        var urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=" + tweet_count + "&callback=?";
         if (since) {
-            urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=200&since_id=" + since + "&callback=?";
+            urlstr = "http://api.supertweet.net/1/statuses/home_timeline.json?count=" + tweet_count + "200&since_id=" + since + "&callback=?";
         }
         
         var x = $.getJSON(
